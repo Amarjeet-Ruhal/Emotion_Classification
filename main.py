@@ -6,8 +6,15 @@ import joblib
 from tensorflow.keras.models import load_model
 
 # Load model and label encoder
-model = load_model("my_model.keras")
-le = joblib.load("label_encoder.pkl")
+def get_type_from_filename(filename):
+    vocal_channel = filename.split("-")[1]
+    return "speech" if vocal_channel == "01" else "song"
+
+# file_type = st.radio("Select file type", options=["Speech", "Song"])
+
+
+# model = load_model("my_model.keras")
+# le = joblib.load("label_encoder.pkl")
 
 # Extract MFCC features
 def extract_features(file_path, max_pad_len=174):
@@ -35,6 +42,14 @@ st.write("Upload a WAV audio file to predict the emotion.")
 
 # File upload
 uploaded_file = st.file_uploader("Choose a .wav file", type=["wav"])
+if uploaded_file is not None:
+    file_type = get_type_from_filename(uploaded_file.name)
+    if file_type == "speech":
+        model = load_model("model/speech_model/emotion_model_speech.h5")
+        le = joblib.load("model/speech_model/label_encoder_speech.pkl")
+    else:
+        model = load_model("model/song_model/emotion_model_song.h5")
+        le = joblib.load("model/song_model/label_encoder_song.pkl")
 
 if uploaded_file is not None:
     st.audio(uploaded_file, format="audio/wav")
