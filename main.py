@@ -42,10 +42,10 @@ uploaded_file = st.file_uploader("Choose a .wav file", type=["wav"])
 if uploaded_file is not None:
     file_type = get_type_from_filename(uploaded_file.name)
     if file_type == "speech":
-        model = load_model("model/speech_model/emotion_model_speech.h5")
+        model = load_model("model/speech_model/emotion_model_speech.keras")
         le = joblib.load("model/speech_model/label_encoder_speech.pkl")
     else:
-        model = load_model("model/song_model/emotion_model_song.h5")
+        model = load_model("model/song_model/emotion_model_song.keras")
         le = joblib.load("model/song_model/label_encoder_song.pkl")
 
 if uploaded_file is not None:
