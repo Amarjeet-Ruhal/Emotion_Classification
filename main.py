@@ -7,14 +7,11 @@ from tensorflow.keras.models import load_model
 
 # Load model and label encoder
 def get_type_from_filename(filename):
+    if len(filename.split("-")) < 2:
+        return "song"
     vocal_channel = filename.split("-")[1]
     return "speech" if vocal_channel == "01" else "song"
 
-# file_type = st.radio("Select file type", options=["Speech", "Song"])
-
-
-# model = load_model("my_model.keras")
-# le = joblib.load("label_encoder.pkl")
 
 # Extract MFCC features
 def extract_features(file_path, max_pad_len=174):
